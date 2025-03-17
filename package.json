@@ -1,0 +1,32 @@
+{
+  "name": "@halo-dev/theme-package-cli",
+  "version": "1.0.0",
+  "description": "A CLI tool for packaging Halo theme template files",
+  "main": "index.js",
+  "bin": {
+    "theme-package": "./index.js"
+  },
+  "scripts": {},
+  "keywords": [
+    "halo",
+    "theme",
+    "package",
+    "cli"
+  ],
+  "author": "@halo-dev",
+  "contributors": [
+    {
+      "name": "Ryan Wang",
+      "url": "https://github.com/ruibaby"
+    }
+  ],
+  "license": "MIT",
+  "packageManager": "pnpm@10.6.3+sha512.bb45e34d50a9a76e858a95837301bfb6bd6d35aea2c5d52094fa497a467c43f5c440103ce2511e9e0a2f89c3d6071baac3358fc68ac6fb75e2ceb3d2736065e6",
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "commander": "^13.1.0",
+    "fs-extra": "^11.3.0",
+    "js-yaml": "^4.1.0",
+    "path": "^0.12.7"
+  }
+}
