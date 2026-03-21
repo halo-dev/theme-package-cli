@@ -48,7 +48,7 @@ theme-package -a
   - i18n directory
   - LICENSE file
 
-- When using the `--all` parameter, packages all files in the project, excluding:
+- When using the `--all` parameter, packages all files in the project, excluding these directories at both the project root and nested workspace/package levels:
   - node_modules directory
   - dist directory
   - .git directory

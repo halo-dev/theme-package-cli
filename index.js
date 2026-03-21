@@ -7,20 +7,24 @@ const fs = require("fs-extra");
 const path = require("path");
 const package = require("./package.json");
 
+const ignoredDirectories = [
+  "node_modules",
+  "dist",
+  ".git",
+  ".github",
+  ".idea",
+  ".vscode",
+];
+
 const ignorePatterns = [
-  "node_modules/**",
-  "dist/**",
+  ...ignoredDirectories.flatMap((dir) => [dir, `${dir}/**`, `**/${dir}`, `**/${dir}/**`]),
   ".husky",
-  ".git/**",
-  ".github/**",
-  ".idea/**",
-  ".vscode/**",
   "pnpm-lock.yaml",
   "package-lock.json",
   "yarn.lock",
   "bun.lockb",
   ".DS_Store",
-  "./**/.DS_Store",
+  "**/.DS_Store",
 ];
 
 const essentialPaths = [
