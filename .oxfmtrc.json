@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "sortImports": {},
+  "sortPackageJson": true,
+  "insertFinalNewline": true,
+  "useTabs": false,
+  "ignorePatterns": []
+}

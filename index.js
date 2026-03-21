@@ -1,20 +1,15 @@
 #!/usr/bin/env node
 
-const { program } = require("commander");
-const yaml = require("js-yaml");
-const archiver = require("archiver");
-const fs = require("fs-extra");
-const path = require("path");
-const package = require("./package.json");
+import path from "path";
 
-const ignoredDirectories = [
-  "node_modules",
-  "dist",
-  ".git",
-  ".github",
-  ".idea",
-  ".vscode",
-];
+import archiver from "archiver";
+import { program } from "commander";
+import fs from "fs-extra";
+import yaml from "js-yaml";
+
+const packageJson = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+
+const ignoredDirectories = ["node_modules", "dist", ".git", ".github", ".idea", ".vscode"];
 
 const ignorePatterns = [
   ...ignoredDirectories.flatMap((dir) => [dir, `${dir}/**`, `**/${dir}`, `**/${dir}/**`]),
@@ -27,23 +22,16 @@ const ignorePatterns = [
   "**/.DS_Store",
 ];
 
-const essentialPaths = [
-  "templates/**",
-  "README.md",
-  "LICENSE",
-  "i18n/**",
-  "*.yaml",
-  "*.yml",
-];
+const essentialPaths = ["templates/**", "README.md", "LICENSE", "i18n/**", "*.yaml", "*.yml"];
 
 program
-  .version(package.version)
+  .version(packageJson.version)
   .description("A CLI tool for packaging Halo theme template files");
 
 program.option(
   "-a, --all",
   "Package all files, excluding some unnecessary directories and files",
-  false
+  false,
 );
 
 program.parse(process.argv);
@@ -52,25 +40,21 @@ const options = program.opts();
 async function main() {
   try {
     const themeYamlPath = path.join(process.cwd(), "theme.yaml");
-    if (!fs.existsSync(themeYamlPath)) {
-      console.error(
-        "Error: theme.yaml file not found in the current directory"
-      );
+    if (!(await fs.pathExists(themeYamlPath))) {
+      console.error("Error: theme.yaml file not found in the current directory");
       process.exit(1);
     }
 
-    const themeYamlContent = fs.readFileSync(themeYamlPath, "utf8");
+    const themeYamlContent = await fs.readFile(themeYamlPath, "utf8");
     const themeConfig = yaml.load(themeYamlContent);
 
     if (
-      !themeConfig.metadata ||
+      !themeConfig?.metadata ||
       !themeConfig.metadata.name ||
       !themeConfig.spec ||
       !themeConfig.spec.version
     ) {
-      console.error(
-        "Error: theme.yaml file format is incorrect, missing required fields"
-      );
+      console.error("Error: theme.yaml file format is incorrect, missing required fields");
       process.exit(1);
     }
 
@@ -88,9 +72,7 @@ async function main() {
     output.on("close", function () {
       console.log(`✅ Packaged successfully: ${zipFilePath}`);
       console.log(`Theme version: ${themeConfig.spec.version}`);
-      console.log(
-        `File size: ${(archive.pointer() / 1024 / 1024).toFixed(2)} MB`
-      );
+      console.log(`File size: ${(archive.pointer() / 1024 / 1024).toFixed(2)} MB`);
     });
 
     archive.on("error", function (err) {
