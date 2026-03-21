@@ -1,6 +1,6 @@
 {
   "name": "@halo-dev/theme-package-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A CLI tool for packaging Halo theme template files",
   "keywords": [
     "cli",
