@@ -54,7 +54,6 @@ theme-package -a
   - .git directory
   - .github directory
   - .idea directory
-  - .vscode directory
   - .DS_Store files
 
 ## Requirements

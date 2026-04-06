@@ -10,13 +10,12 @@ import yaml from "js-yaml";
 const packageJson = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 
 const ignorePatterns = [
-  "dist",
-  "node_modules",
-  "**/node_modules",
-  ".git",
-  ".github",
-  ".idea",
-  ".vscode",
+  "dist/**",
+  "node_modules/**",
+  "**/node_modules/**",
+  ".git/**",
+  ".github/**",
+  ".idea/**",
   ".DS_Store",
   "**/.DS_Store",
 ];
