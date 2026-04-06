@@ -33,7 +33,7 @@ Run the command in your Halo theme project root directory:
 # Only package essential files (templates, README.md, *.yaml/*.yml, i18n, LICENSE)
 theme-package
 
-# Package all files (excluding node_modules, dist, etc.)
+# Package all files except common unnecessary files and directories
 theme-package --all
 # or
 theme-package -a
@@ -48,15 +48,13 @@ theme-package -a
   - i18n directory
   - LICENSE file
 
-- When using the `--all` parameter, packages all files in the project, excluding these directories at both the project root and nested workspace/package levels:
-  - node_modules directory
+- When using the `--all` parameter, packages all files in the project while excluding some common unnecessary files and directories:
   - dist directory
+  - node_modules directories
   - .git directory
   - .github directory
   - .idea directory
   - .vscode directory
-  - .husky directory
-  - Lock files (pnpm-lock.yaml, package-lock.json, yarn.lock, bun.lockb)
   - .DS_Store files
 
 ## Requirements

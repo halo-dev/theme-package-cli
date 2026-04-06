@@ -9,16 +9,13 @@ import yaml from "js-yaml";
 
 const packageJson = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 
-const ignoredDirectories = ["node_modules", "dist", ".git", ".github", ".idea", ".vscode"];
-
 const ignorePatterns = [
-  ...ignoredDirectories.flatMap((dir) => [dir, `${dir}/**`, `**/${dir}`, `**/${dir}/**`]),
-  ".husky",
-  "pnpm-lock.yaml",
-  "package-lock.json",
-  "yarn.lock",
-  "bun.lockb",
-  ".DS_Store",
+  "dist",
+  "**/node_modules",
+  ".git",
+  ".github",
+  ".idea",
+  ".vscode",
   "**/.DS_Store",
 ];
 
