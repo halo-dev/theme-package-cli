@@ -11,11 +11,13 @@ const packageJson = JSON.parse(fs.readFileSync(new URL("./package.json", import.
 
 const ignorePatterns = [
   "dist",
+  "node_modules",
   "**/node_modules",
   ".git",
   ".github",
   ".idea",
   ".vscode",
+  ".DS_Store",
   "**/.DS_Store",
 ];
 
