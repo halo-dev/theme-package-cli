@@ -22,7 +22,7 @@ const ignorePatterns = [
 
 const essentialPaths = [
   "templates/**",
-  "ui-plugin/dist/**"
+  "ui-plugin/dist/**",
   "README.md",
   "LICENSE",
   "i18n/**",
