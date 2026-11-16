@@ -5,7 +5,9 @@ import path from "path";
 import archiver from "archiver";
 import { program } from "commander";
 import fs from "fs-extra";
+import ignore from "ignore";
 import yaml from "js-yaml";
+import picomatch from "picomatch";
 
 const packageJson = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 
@@ -13,7 +15,8 @@ const ignorePatterns = [
   "dist/**",
   "node_modules/**",
   "**/node_modules/**",
-  ".git/**",
+  "**/.git",
+  "**/.git/**",
   ".github/**",
   ".idea/**",
   ".DS_Store",
@@ -40,7 +43,7 @@ program
 
 program.option(
   "-a, --all",
-  "Package all files, excluding some unnecessary directories and files",
+  "Package all files using .gitignore, always including essential paths",
   false,
 );
 
@@ -92,10 +95,27 @@ async function main() {
     archive.pipe(output);
 
     if (options.all) {
-      archive.glob("**/*", {
-        cwd: process.cwd(),
-        ignore: ignorePatterns,
-        dot: true,
+      const isEssential = picomatch(essentialPaths, { dot: true });
+      const gitignore = ignore();
+      const gitignorePath = path.join(process.cwd(), ".gitignore");
+      if (await fs.pathExists(gitignorePath)) {
+        gitignore.add(await fs.readFile(gitignorePath, "utf8"));
+      }
+
+      archive.directory(process.cwd(), false, (entry) => {
+        const name = entry.name.split(path.sep).join("/");
+        // Never include the archive being written in itself.
+        if (path.resolve(process.cwd(), entry.name) === zipFilePath) {
+          return false;
+        }
+        if (name.split("/").includes(".git")) {
+          return false;
+        }
+        if (isEssential(name)) {
+          return entry;
+        }
+        const ignorePath = entry.stats.isDirectory() ? `${name}/` : name;
+        return gitignore.ignores(ignorePath) ? false : entry;
       });
     } else {
       essentialPaths.forEach((pattern) => {

@@ -27,14 +27,17 @@
   "main": "index.js",
   "scripts": {
     "fmt": "oxfmt",
+    "test": "node --test",
     "release": "release-it"
   },
   "dependencies": {
     "archiver": "^7.0.1",
     "commander": "^13.1.0",
     "fs-extra": "^11.3.4",
+    "ignore": "^7.0.14",
     "js-yaml": "^4.1.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "picomatch": "^4.0.7"
   },
   "devDependencies": {
     "oxfmt": "^0.41.0",
